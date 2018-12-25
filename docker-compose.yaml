@@ -1,0 +1,58 @@
+version: '3'
+
+# When docker turns off by force sometimes MySQL/MariaDB have problems
+# Initializing. Ensure deleting the file tc.log inside the
+# /database directory and restart.
+# This database is for development only. For production use 
+# another more secure configuration.
+
+services:
+  mariadb:
+    image: mariadb
+    volumes:
+      - ./database/mariadb/data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_DATABASE: docker
+      MYSQL_USER: docker
+      MYSQL_PASSWORD: docker
+    ports:
+      - 3306:3306
+    networks:
+      static-network: 
+        ipv4_address: 172.23.0.3
+  pw:
+    depends_on:
+      - mariadb
+    build: 
+      context: ./docker/processwire
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      LC_ALL: en_US.UTF-8
+      MYSQL_HOST: 172.23.0.3
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: docker
+      MYSQL_USER: docker
+      MYSQL_PASS: docker
+      STAGE: dev
+    links:
+      - mariadb
+    volumes:
+      - ./pw:/var/www/html
+      - ./config/php/pw:/usr/local/etc/php
+    ports:
+      - 80:80
+    restart: always
+    networks:
+      static-network:
+        ipv4_address: 172.23.0.4
+networks:
+  static-network:
+    ipam:
+      config:
+        # 172.23.0.x choose a number > 1 for x
+        - subnet: 172.23.0.0/16
+          #docker-compose v3+ do not use ip_range
+          #ip_range: 172.28.5.0/24
