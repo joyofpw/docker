@@ -21,7 +21,7 @@ Use these credentials in `ProcessWire` configuration.
 - *user*: `docker`
 - *password* : `docker`
 - *database* : `docker`
-- *host* : `172.23.0.3`
+- *host* : `172.23.0.3` (You could also use just mariadb as the value for the ip, docker will handle that)
 - *port* `3306`
 
 For accesing db using an external tool like [Sequel Pro](https://www.sequelpro.com/) or [HeidiSQL](https://www.heidisql.com/).
