@@ -3,6 +3,8 @@
 These files is a base structure for [ProcessWire](https://processwire.com)
 projects using [Docker](https://www.docker.com/).
 
+This is a **testing** environment docker configuration tailored for *ProcessWire*. If you want to use it in production you must properly check security and other configurations.
+
 ## Setup
 
 For starting the project use
@@ -21,7 +23,7 @@ Use these credentials in `ProcessWire` configuration.
 - *user*: `docker`
 - *password* : `docker`
 - *database* : `docker`
-- *host* : `172.23.0.3` (You could also use just mariadb as the value for the ip, docker will handle that)
+- *host* : `172.23.0.3` (You could also use just `mariadb` as the value for the ip, docker will handle that)
 - *port* `3306`
 
 For accesing db using an external tool like [Sequel Pro](https://www.sequelpro.com/) or [HeidiSQL](https://www.heidisql.com/).
@@ -31,6 +33,20 @@ For accesing db using an external tool like [Sequel Pro](https://www.sequelpro.c
 - *database* : `docker`
 - *host* : `127.0.0.1`
 - *port* `3306`
+
+### Important
+
+Always **backup** your database sql because you may loose your data if you *prune your containers*.
+
+### Known Issues
+
+This issues may ocur if the docker container was incorrectly stopped or pruned and restarted.
+
+When starting database could fail. Delete the file `tc.log`.
+
+When importing sql may show `Error : Tablespace for table xxxx exists. Please DISCARD the tablespace before IMPORT.`. Search for `*.idb` files without it's matching `*.frm` file. Move those `idb` files to another directory or delete them.
+
+## PHP
 
 For changing *PHP* settings go to *docker/processwire/init.sh* and then rebuild
 the containers.
@@ -48,6 +64,14 @@ ports:
     # local port : docker port
     - 80:80
 ```
+
+## Docker Commands
+
+- `docker-compose up -d` : Starts the containers
+- `docker ps`: Show the running containers
+- `docker kill <container id>`: Kills a container
+- `docker network prune`: Reset the network
+- `docker container prune`: Resets the stopped containers
 
 ## Other Resources
 
