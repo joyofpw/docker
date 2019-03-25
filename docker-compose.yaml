@@ -3,8 +3,12 @@ version: '3'
 # When docker turns off by force sometimes MySQL/MariaDB have problems
 # Initializing. Ensure deleting the file tc.log inside the
 # /database directory and restart.
+#
 # This database is for development only. For production use 
 # another more secure configuration.
+
+# Uncomment the network configurations in order to
+# have static ip address.
 
 services:
   mariadb:
@@ -18,10 +22,11 @@ services:
       MYSQL_USER: docker
       MYSQL_PASSWORD: docker
     ports:
+    # machine port : docker port
       - 3306:3306
-    networks:
-      static-network: 
-        ipv4_address: 172.23.0.3
+    # networks:
+    #   static-network: 
+    #     ipv4_address: 172.23.0.3
   pw:
     depends_on:
       - mariadb
@@ -31,7 +36,7 @@ services:
     restart: always
     environment:
       LC_ALL: en_US.UTF-8
-      MYSQL_HOST: 172.23.0.3
+      MYSQL_HOST: mariadb
       MYSQL_PORT: 3306
       MYSQL_DATABASE: docker
       MYSQL_USER: docker
@@ -43,16 +48,17 @@ services:
       - ./pw:/var/www/html
       - ./config/php/pw:/usr/local/etc/php
     ports:
+    # machine port : docker port
       - 80:80
     restart: always
-    networks:
-      static-network:
-        ipv4_address: 172.23.0.4
-networks:
-  static-network:
-    ipam:
-      config:
-        # 172.23.0.x choose a number > 1 for x
-        - subnet: 172.23.0.0/16
-          #docker-compose v3+ do not use ip_range
-          #ip_range: 172.28.5.0/24
+    # networks:
+    #   static-network:
+    #     ipv4_address: 172.23.0.4
+# networks:
+#   static-network:
+#     ipam:
+#       config:
+#         # 172.23.0.x choose a number > 1 for x
+#         - subnet: 172.23.0.0/16
+#           #docker-compose v3+ do not use ip_range
+#           #ip_range: 172.28.5.0/24
