@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 # Ensure we create the cluster with UTF-8 locale
 ENV LANG en_US.utf8
