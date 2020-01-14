@@ -1,9 +1,8 @@
 FROM php:7.3-apache
 
-# Ensure we create the cluster with UTF-8 locale
-ENV LANG en_US.utf8
 
 RUN apt-get update && apt-get install -y \
+        locales \
         libpq-dev \
         libzip-dev \
         libicu-dev \
@@ -22,7 +21,14 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install mysqli \
         && docker-php-ext-install intl \
         && docker-php-ext-install zip \
-        && rm -rf /var/lib/apt/lists/*
+        && locale-gen --no-purge "en_US.UTF-8" \
+        && update-locale LANG=en_US.UTF-8 \
+        && rm -rf /var/lib/apt/lists/* 
+
+# Ensure we create the cluster with UTF-8 locale
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
 
 # apache
 RUN a2enmod rewrite
