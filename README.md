@@ -48,8 +48,10 @@ When importing sql may show `Error : Tablespace for table xxxx exists. Please DI
 
 ## PHP
 
-For changing *PHP* settings go to *docker/processwire/init.sh* and then rebuild
-the containers.
+For changing *PHP* settings go to [`docker/processwire/init.sh`](/docker/processwire/init.sh) and then rebuild
+the containers. For installing additional modules change the [`docker/processwire/Dockerfile`](/docker/processwire/Dockerfile).
+
+- Default timezone *America/Santiago*.
 
 ## Local host
 
@@ -80,3 +82,7 @@ ports:
 - [https://github.com/raleerg/docker-processwire](https://github.com/raleerg/docker-processwire)
 
 - [https://github.com/undernewmanagement/processwire-docker-compose](https://github.com/undernewmanagement/processwire-docker-compose)
+
+
+
+Made with <i class="fa fa-heart">&#9829;</i> by <a href="https://ninjas.cl" target="_blank">Ninjas.cl</a>.
