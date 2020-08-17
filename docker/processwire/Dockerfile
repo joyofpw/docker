@@ -1,5 +1,4 @@
-FROM php:7.3-apache
-
+FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y \
         locales locales-all \
@@ -11,13 +10,10 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libwebp-dev \
         git \
-        && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
+        && docker-php-ext-configure gd --with-jpeg --with-freetype \
         && docker-php-ext-install -j$(nproc) gd \
         && docker-php-ext-install pdo \
         && docker-php-ext-install pdo_mysql \
-        && docker-php-ext-install pdo_pgsql \
         && docker-php-ext-install mysqli \
         && docker-php-ext-install intl \
         && docker-php-ext-install zip \
@@ -35,14 +31,14 @@ RUN dpkg-reconfigure locales
 # apache
 RUN a2enmod rewrite
 
-# Volume
-VOLUME ["/var/www/html"]
-
 # Clean Up
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/www/html/.git
 
 # Init
-COPY /init.sh /init.sh
+COPY docker/processwire/init.sh /init.sh
 RUN chmod +x /init.sh
+
+WORKDIR /var/www/html
+
 CMD ["/init.sh"]
