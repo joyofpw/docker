@@ -23,6 +23,14 @@ extension=pdo_pgsql.so
 extension=zip.so
 EOF
 
+# Ensure we create the container with UTF-8 locale
+cat > /root/.bashrc << EOF
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_TYPE=en_US.UTF-8
+EOF
+
 # Start Apache
 source /etc/apache2/envvars
 exec apache2ctl -D FOREGROUND
