@@ -75,6 +75,14 @@ ports:
 - `docker network prune`: Reset the network
 - `docker container prune`: Resets the stopped containers
 
+## Makefile
+
+A _Makefile_ is a way of simplifyng some tasks.
+
+- `make download-pw`: Will download the latest version of pw (requires git).
+- `make docker-up`: Will create some dirs and execute docker-compose up.
+- `make install`: Will execute `download-pw` and then `docker-up`.
+
 ## Other Resources
 
 - [https://processwire.com/talk/topic/10736-running-a-processwire-site-with-docker/](https://processwire.com/talk/topic/10736-running-a-processwire-site-with-docker/)

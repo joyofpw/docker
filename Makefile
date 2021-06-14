@@ -3,7 +3,6 @@ c clean:
 	rm -rf ./pw
 
 dpw download-pw:
-
 	rm -f ./pw/.gitkeep
 	rm -f ./pw/.gitattributes
 	
@@ -13,6 +12,8 @@ dpw download-pw:
 	rm -f ./pw/.DS_Store
 
 dcu docker-up:
+	mkdir -p ./database/mariadb/data
+	mkdir -p ./config/php/pw
 	docker-compose up -d
 
 i install:
