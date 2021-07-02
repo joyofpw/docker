@@ -25,8 +25,9 @@ ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV LC_TYPE=en_US.UTF-8
 
-RUN locale-gen
-RUN dpkg-reconfigure locales
+# Optional
+# RUN locale-gen
+# RUN dpkg-reconfigure locales
 
 # apache
 RUN a2enmod rewrite
