@@ -52,7 +52,7 @@ loose your data if you *prune your containers*.
 
 ### Known Issues
 
-This issues may ocur if the docker container was incorrectly stopped or pruned and restarted.
+These issues may ocur if the docker container was incorrectly stopped or pruned and restarted.
 
 All the files are stored inside `docker/database`.
 
@@ -93,9 +93,9 @@ ports:
 
 A [Taskfile](https://taskfile.dev/) is a way of simplifyng some tasks.
 
-- `task up`: Will download the latest version of pw (requires git).
-- `task down`: Will create some dirs and execute docker-compose up.
-- `task restart`: Will execute `download-pw` and then `docker-up`.
+- `task up`: Will start the containers.
+- `task down`: Will stop the containers.
+- `task restart`: Will stop and then start the containers.
 
 ## Other Resources
 
