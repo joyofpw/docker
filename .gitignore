@@ -1,1 +1,11 @@
 .DS_Store
+# uncomment if needed
+.env
+docker/database/*
+!docker/database/.gitkeep
+site/assets/cache/*
+!site/assets/cache/.htaccess
+site/assets/logs/*
+!site/assets/logs/.htaccess
+site/assets/sessions/*
+!site/assets/sessions/.htaccess

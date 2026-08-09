@@ -1,0 +1,43 @@
+version: '3.17'
+
+tasks:
+  default:
+    desc: Build and start the Docker environment (background)
+    cmds:
+      - docker compose up -d --build
+
+  up:
+    desc: Build and start the Docker environment (background)
+    cmds:
+      - docker compose up -d --build
+
+  down:
+    desc: Stop and remove the Docker environment
+    cmds:
+      - docker compose down
+
+  restart:
+    desc: Restart the Docker environment
+    cmds:
+      - task down
+      - task up
+
+  logs:
+    desc: Follow container logs
+    cmds:
+      - docker compose logs -f
+
+  ps:
+    desc: Show running containers
+    cmds:
+      - docker compose ps
+
+  shell:
+    desc: Open a shell in the PHP container
+    cmds:
+      - docker compose exec web bash
+
+  db:
+    desc: Open a shell in the MariaDB container
+    cmds:
+      - docker compose exec db bash

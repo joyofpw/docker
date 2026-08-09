@@ -4,6 +4,11 @@ end_of_line = lf
 insert_final_newline = true
 indent_size = 2
 indent_style = space
+trim_trailing_whitespace = true
+charset=utf-8
 
 [Makefile]
 indent_style = tab
+
+[*.{md, adoc, yml}]
+trim_trailing_whitespace = false

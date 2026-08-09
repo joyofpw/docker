@@ -3,44 +3,58 @@
 These files is a base structure for [ProcessWire](https://processwire.com)
 projects using [Docker](https://www.docker.com/).
 
-This is a **testing** environment docker configuration tailored for *ProcessWire*. If you want to use it in production you must properly check security and other configurations.
+This is a **testing** environment docker configuration tailored for *ProcessWire*. 
+If you want to use it in production you must properly check security and other configurations.
 
 ## Setup
 
 For starting the project use
 
-`$ docker-compose up -d`
+```sh
+$ docker compose up -d --build
+```
 
 A new `Apache` and `MariaDB` instance will start.
 
-Configure your `ProcessWire` files in `pw` directory. You can copy
+Configure your `ProcessWire` files in `public` directory. You can copy
 files from a existing project or install a fresh copy.
 
-## Database Credentials (Dev Environment)
+## Dev Environment
+
+Create a new `.env` file with the environment configuration.
+Use [env.example.txt](env.example.txt) file as base.
 
 Use these credentials in `ProcessWire` configuration.
 
-- *user*: `docker`
-- *password* : `docker`
-- *database* : `docker`
-- *host* : `db` (You could also use just the ip)
-- *port* `3306`
+```sh
+WEB_PORT=8080
+MARIADB_HOST=db
+MARIADB_PORT=3306
+MARIADB_DATABASE=pw_db
+MARIADB_USER=pw_user
+MARIADB_PASSWORD=pw_password
+MARIADB_ROOT_PASSWORD=root_password
+```
 
-For accesing db using an external tool like [Sequel Pro](https://www.sequelpro.com/) or [HeidiSQL](https://www.heidisql.com/).
+Access the database using an external tool: 
 
-- *user*: `docker`
-- *password* : `docker`
-- *database* : `docker`
+- [Sequel Pro](https://www.sequelpro.com/) 
+- [HeidiSQL](https://www.heidisql.com/).
+- [DBeaver](https://dbeaver.io/)
+
 - *host* : `127.0.0.1`
 - *port* `3306`
 
 ### Important
 
-Always **backup** your database sql because you may loose your data if you *prune your containers*.
+Always **backup** your database sql because you may 
+loose your data if you *prune your containers*.
 
 ### Known Issues
 
 This issues may ocur if the docker container was incorrectly stopped or pruned and restarted.
+
+All the files are stored inside `docker/database`.
 
 When starting database could fail. Delete the file `tc.log`.
 
@@ -48,23 +62,23 @@ When importing sql may show `Error : Tablespace for table xxxx exists. Please DI
 
 ## PHP
 
-For changing *PHP* settings go to [`docker/processwire/init.sh`](/docker/processwire/init.sh) and then rebuild
-the containers. For installing additional modules change the [`docker/processwire/Dockerfile`](/docker/processwire/Dockerfile).
+For changing *PHP* settings go to [`docker/php/config/local.ini`](/docker/php/config/local.ini) and then rebuild
+the containers. For installing additional modules change the [`docker/php/Dockerfile`](/docker/php/Dockerfile).
 
-- Default timezone *America/Santiago*.
+- Default timezone *UTC*.
 
 ## Local host
 
 Once `Docker` is running you can access `ProcessWire` by going to localhost
-in your browser. `127.0.0.1`. Is recommended that you edit your `hosts` file
+in your browser. `127.0.0.1:8080`. Is recommended that you edit your `hosts` file
 to add a [custom domain](https://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/).
 
-If you want to use another port (default is 80) you must change it in the `docker-compose.yaml` file.
+If you want to use another port (default is 8080) you must change it in the `docker-compose.yaml` file.
 
 ```yml
 ports:
     # local port : docker port
-    - 80:80
+    - 8080:80
 ```
 
 ## Docker Commands
@@ -75,13 +89,13 @@ ports:
 - `docker network prune`: Reset the network
 - `docker container prune`: Resets the stopped containers
 
-## Makefile
+## Taskfile
 
-A _Makefile_ is a way of simplifyng some tasks.
+A [Taskfile](https://taskfile.dev/) is a way of simplifyng some tasks.
 
-- `make download-pw`: Will download the latest version of pw (requires git).
-- `make docker-up`: Will create some dirs and execute docker-compose up.
-- `make install`: Will execute `download-pw` and then `docker-up`.
+- `task up`: Will download the latest version of pw (requires git).
+- `task down`: Will create some dirs and execute docker-compose up.
+- `task restart`: Will execute `download-pw` and then `docker-up`.
 
 ## Other Resources
 

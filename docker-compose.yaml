@@ -1,46 +1,36 @@
-version: "3"
-
-# When docker turns off by force sometimes MySQL/MariaDB have problems
-# Initializing. Ensure deleting the file tc.log inside the
-# /database directory and restart.
-#
-# This docker-compose is for development only. For production use
-# another more secure configuration.
-
 services:
-  db:
-    image: mariadb
-    volumes:
-      - ./database/mariadb/data:/var/lib/mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: docker
-      MYSQL_DATABASE: docker
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
-    ports:
-      # machine port : docker port
-      - 3306:3306
-  pw:
-    depends_on:
-      - db
+  web:
     build:
-      context: .
-      dockerfile: ./docker/processwire/Dockerfile
-    restart: always
-    environment:
-      LC_ALL: en_US.UTF-8
-      MYSQL_HOST: db
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE: docker
-      MYSQL_USER: docker
-      MYSQL_PASS: docker
-      STAGE: dev
-    links:
-      - db
-    volumes:
-      - ./src/backend:/var/www/html
-      - ./config/php/pw:/usr/local/etc/php
+      context: ./docker/php
+    container_name: pw-web
     ports:
-      # machine port : docker port
-      - 80:80
+      - "${WEB_PORT:-8080}:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/config:/usr/local/etc/php/conf.d
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      MARIADB_HOST: ${MARIADB_HOST:-db}
+      MARIADB_PORT: ${MARIADB_PORT:-3306}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+
+  db:
+    image: mariadb:11.4
+    container_name: pw-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+    volumes:
+      - ./docker/database:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
