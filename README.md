@@ -68,7 +68,7 @@ the containers. For installing additional modules change the [`docker/php/Docker
 
 Once `Docker` is running you can access `ProcessWire` by going to localhost
 in your browser. `127.0.0.1:8080`. Is recommended that you edit your `hosts` file
-to add a [custom domain](https://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/).
+to add a custom domain.
 
 If you want to use another port (default is 8080) you must change it in the `docker-compose.yaml` file.
 
@@ -99,9 +99,6 @@ A [Taskfile](https://taskfile.dev/) is a way of simplifyng some tasks.
 - [https://processwire.com/talk/topic/10736-running-a-processwire-site-with-docker/](https://processwire.com/talk/topic/10736-running-a-processwire-site-with-docker/)
 
 - [https://github.com/raleerg/docker-processwire](https://github.com/raleerg/docker-processwire)
-
-- [https://github.com/undernewmanagement/processwire-docker-compose](https://github.com/undernewmanagement/processwire-docker-compose)
-
 
 
 Made with <i class="fa fa-heart">&#9829;</i> by <a href="https://ninjas.cl" target="_blank">Ninjas.cl</a>.
