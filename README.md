@@ -36,11 +36,8 @@ MARIADB_PASSWORD=pw_password
 MARIADB_ROOT_PASSWORD=root_password
 ```
 
-Access the database using an external tool: 
-
-- [Sequel Pro](https://www.sequelpro.com/) 
-- [HeidiSQL](https://www.heidisql.com/).
-- [DBeaver](https://dbeaver.io/)
+Access the database using an external tool such as [HeidiSQL](https://www.heidisql.com/) or [DBeaver](https://dbeaver.io/).
+Use the local machine IP and port:
 
 - *host* : `127.0.0.1`
 - *port* `3306`
