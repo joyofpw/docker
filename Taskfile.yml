@@ -2,9 +2,9 @@ version: '3.17'
 
 tasks:
   default:
-    desc: Build and start the Docker environment (background)
+    desc: Runs task up command
     cmds:
-      - docker compose up -d --build
+      - task up
 
   up:
     desc: Build and start the Docker environment (background)
